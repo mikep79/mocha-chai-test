@@ -1,0 +1,28 @@
+{
+  "name": "mocha-chai-test",
+  "version": "1.0.0",
+  "description": "Unit testing with mocha and chai.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mikep79/mocha-chai-test.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mikep79/mocha-chai-test/issues"
+  },
+  "homepage": "https://github.com/mikep79/mocha-chai-test#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "chai": "^4.1.2",
+    "express": "^4.16.2",
+    "mocha": "^4.0.1",
+    "mongoose": "^4.13.8"
+  }
+}
