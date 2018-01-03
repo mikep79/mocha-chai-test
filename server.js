@@ -2,10 +2,13 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 
-const thingObj = {
-    first: 'cat',
-    second: 'rabbit',
-    third: 'dwarf'
+const cat = {
+    legs: 4,
+    name: 'sniffles',
+    whiskers: true,
+    speak: function(){
+        return 'meow!';
+    }
 };
 
 // establishes MongoDB connection
@@ -66,5 +69,11 @@ module.exports = {
     },
     mathTest: function(){
         return 5 + 5;
+    },
+    objTest: function(){
+        return cat;
+    },
+    squareTest: function(val1){
+        return val1 * val1;
     }
 };

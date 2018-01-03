@@ -3,6 +3,8 @@ const assert = require('chai').assert;
 const app = require('../server');
 // let sayHelloResult = app.sayHello();
 // let addNumbersResult = app.addNumbers(5, 12);
+var thing;
+const mtVal = app.mathTest();
 
 // describe('Server', function () {
 //     describe('sayHello()', function () {
@@ -25,9 +27,6 @@ const app = require('../server');
 //     });
 // });
 
-var thing;
-const mtVal = app.mathTest();
-
 describe('server', function(){
     // name of tests
     describe('wowTest()', function(){
@@ -42,7 +41,7 @@ describe('server', function(){
             assert.notEqual(app.wowTest(), 'wow!!!');
         });
         it('should be undefined', function(){
-            assert.isUndefined(thing, 'here is something');
+            assert.isUndefined(thing);
         });
     });
     describe('mathTest()', function(){
@@ -61,6 +60,33 @@ describe('server', function(){
         it('should be equal to 10', function(){
             assert.equal(mtVal, 10);
         });
-        
+        it('should be defined', function(){
+            assert.isDefined(mtVal);
+        });
+    });
+    describe('objTest()', function(){
+        it('should be an object', function(){
+            assert.typeOf(app.objTest(), 'object');
+        })
+        it('should have a property "legs"', function(){
+            assert.property(app.objTest(), 'legs');
+        })
+        it('should have value of legs = 4', function(){
+            assert.propertyVal(app.objTest(), 'legs', 4);
+        })
+        it('should have whiskers = true', function(){
+            assert.isTrue(app.objTest().whiskers);
+        })
+        it('should have a property type string of name', function(){
+            assert.typeOf(app.objTest().name, 'string');
+        })
+        it('should have keys name, legs, whiskers, speak', function(){
+            assert.hasAllKeys(app.objTest(), ['name', 'legs', 'whiskers', 'speak']);
+        })
+    });
+    describe('square test', function(){
+        it('should return the square of the number', function(){
+            assert.equal(app.squareTest(5), 25);
+        })
     })
 });
