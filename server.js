@@ -51,12 +51,20 @@ app.listen(3000, function(){
     console.log('Listenin on port 3000.');
 });
 
-module.exports = {
-    sayHello: function(){
-        return 'hello there!';
-    },
-    addNumbers: function(val1, val2){
-        return val1 + val2;
-    }
-}
+// module.exports = {
+//     sayHello: function(){
+//         return 'hello there!';
+//     },
+//     addNumbers: function(val1, val2){
+//         return val1 + val2;
+//     }
+// }
 
+module.exports = {
+    wowTest: function(){
+        return 'wow!';
+    },
+    mathTest: function(){
+        return 5 + 5;
+    }
+};
