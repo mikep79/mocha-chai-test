@@ -1,6 +1,9 @@
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+
+app.use(bodyParser.json());
 
 const cat = {
     legs: 4,
@@ -10,6 +13,8 @@ const cat = {
         return 'meow!';
     }
 };
+
+let animals = [cat];
 
 // establishes MongoDB connection
 // mongoose.connect('localhost:/27017/mocha-chai-test');
@@ -32,11 +37,14 @@ const cat = {
 // });
 
 app.get('/', function(req, res){
-    res.send(thingObj);
+    res.send(animals);
 });
 
 app.post('/', function(req, res){
-    let object = req.body;
+    console.log('req.body: ', req.body);
+    let newAnimal = req.body;
+    animals.push(newAnimal);
+    console.log('animals array: ', animals);
     // do something with object
     // newThing.save(function(err){
     //     if (err){
@@ -46,12 +54,24 @@ app.post('/', function(req, res){
     //         res.sendStatus(202);
     //     }
     // });
-    res.sendStatus(202);
+    res.send(animals);
+});
+
+app.delete('/', function(req, res){
+    console.log('delete req.body: ', req.body);
+    
+    for (var i = 0; i < animals.length; i++){
+        if (req.body.name == animals[i].name){
+            animals.splice(i, 1);
+        }
+    }
+    console.log('animals: ', animals);
+    res.send(animals);
 });
 
 
 app.listen(3000, function(){
-    console.log('Listenin on port 3000.');
+    console.log('Listening on port 3000.');
 });
 
 // module.exports = {
