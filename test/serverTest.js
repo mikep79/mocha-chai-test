@@ -81,15 +81,29 @@ describe('server', function () {
                 .get('/')
                 .end(function (err, res) {
                     console.log('res: ', res);
+                    // assert style
+                    assert.equal(res.status, 200);
                     assert.typeOf(res, 'object');
                     assert.typeOf(res.body, 'array');
                     assert.equal(res.body.length, 1);
+                    // should style
                     res.should.have.status(200);
-                    res.should.be.json;
-                    // expect(err).to.be.null;
-                    // expect(res).to.have.status(200);
-                    // or...
+                    res.should.be.a('object');
                     res.body.should.be.a('array');
+                    res.body.should.have.lengthOf(1);
+                    res.body[0].name.should.include('snif');
+                    res.body[0].name.should.equal('sniffles');
+                    // expect style
+                    expect(err).to.be.null;
+                    expect(res).to.have.status(200);
+                    expect(res).to.be.a('object');
+                    expect(res).to.be.json;
+                    expect(res.body).to.be.a('array');
+                    expect(res.body).to.have.lengthOf(1);
+                    // include => good for testing that emails contain @
+                    expect(res.body[0].name).to.include('snif');
+                    expect(res.body[0].name).to.equal('sniffles');
+                    // required!
                     done();
                 });
         });
