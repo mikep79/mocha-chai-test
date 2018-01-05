@@ -39,6 +39,11 @@ let animals = [cat];
 app.get('/', function(req, res){
     res.send(animals);
 });
+// can test what:
+// - is array
+// - has string values
+// - is not undefined
+
 
 app.post('/', function(req, res){
     console.log('req.body: ', req.body);
@@ -83,17 +88,19 @@ app.listen(3000, function(){
 //     }
 // }
 
-module.exports = {
-    wowTest: function(){
-        return 'wow!';
-    },
-    mathTest: function(){
-        return 5 + 5;
-    },
-    objTest: function(){
-        return cat;
-    },
-    squareTest: function(val1){
-        return val1 * val1;
-    }
-};
+module.exports = app;
+// {
+//     wowTest: function(){
+//         return 'wow!';
+//     },
+//     mathTest: function(){
+//         return 5 + 5;
+//     },
+//     objTest: function(){
+//         return cat;
+//     },
+//     squareTest: function(val1){
+//         return val1 * val1;
+//     },
+
+// };
