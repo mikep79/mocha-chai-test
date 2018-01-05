@@ -2,8 +2,11 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 
 app.use(bodyParser.json());
+app.use(cookieParser());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 const cat = {
     legs: 4,
@@ -59,7 +62,7 @@ app.post('/', function(req, res){
     //         res.sendStatus(202);
     //     }
     // });
-    res.send(animals);
+    res.send({'SUCCESS': newAnimal});
 });
 
 app.delete('/', function(req, res){

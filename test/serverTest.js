@@ -108,12 +108,25 @@ describe('server', function () {
                 });
         });
     });
+    describe('POST animal req', function () {
+        it('it should add an animal to animals array', function (done) {
+            let newAnimal = { name: 'jimbo', legs: 4 };
+            chai.request(app)
+                .post('/')
+                .send(newAnimal)
+                .end(function (err, res) {
+                    expect(err).to.be.null;
+                    expect(res).to.have.status(200);
+                    // not working. no headers?
+                    // expect(res.body).to.be.json;
+                    expect(res.body).to.have.property('SUCCESS');
+                    expect(res.body.SUCCESS).to.have.property('name').that.is.a('string');
+                    expect(res.body.SUCCESS).to.have.property('legs').that.is.a('number');
+                    expect(res.body.SUCCESS).to.have.property('legs').to.equal(4);
+                    expect(res.body.SUCCESS).to.have.property('name').to.equal(newAnimal.name);
+                    expect(res.body.SUCCESS).to.have.all.keys('name', 'legs');
+                    done();
+                })
+        })
+    });
 });
-
-// chai.request(app)
-//   .put('/user/me')
-//   .send({ password: '123', confirmPassword: '123' })
-//   .end(function (err, res) {
-//      expect(err).to.be.null;
-//      expect(res).to.have.status(200);
-//   });
