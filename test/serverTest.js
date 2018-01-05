@@ -80,7 +80,7 @@ describe('server', function () {
             chai.request(app)
                 .get('/')
                 .end(function (err, res) {
-                    console.log('res: ', res);
+                    // console.log('res: ', res);
                     // assert style
                     assert.equal(res.status, 200);
                     assert.typeOf(res, 'object');
@@ -126,7 +126,25 @@ describe('server', function () {
                     expect(res.body.SUCCESS).to.have.property('name').to.equal(newAnimal.name);
                     expect(res.body.SUCCESS).to.have.all.keys('name', 'legs');
                     done();
-                })
+                });
+        })
+    });
+    describe('delete req test.', function () {
+        it('should delete an animal from animals array', function (done) {
+            let newAnimal = { name: 'jimbo' };
+            chai.request(app)
+                .delete('/')
+                .send(newAnimal)
+                .end(function(err, res){
+                    // tests here
+                    expect(res).to.have.status(200);
+                    expect(res.body).to.be.a('object');
+                    expect(res.body).to.have.property('DELETED');
+                    expect(res.body.DELETED).to.have.all.keys('name', 'legs');
+                    expect(res.body.DELETED).to.have.property('legs').that.is.a('number');
+                    expect(res.body.DELETED).to.have.property('name').that.is.a('string');
+                    done();
+                });
         })
     });
 });

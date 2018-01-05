@@ -49,7 +49,7 @@ app.get('/', function(req, res){
 
 
 app.post('/', function(req, res){
-    console.log('req.body: ', req.body);
+    // console.log('req.body: ', req.body);
     let newAnimal = req.body;
     animals.push(newAnimal);
     console.log('animals array: ', animals);
@@ -67,14 +67,15 @@ app.post('/', function(req, res){
 
 app.delete('/', function(req, res){
     console.log('delete req.body: ', req.body);
-    
+    let deletedAnimal;
     for (var i = 0; i < animals.length; i++){
         if (req.body.name == animals[i].name){
+            deletedAnimal = animals[i];
             animals.splice(i, 1);
         }
     }
-    console.log('animals: ', animals);
-    res.send(animals);
+    // console.log('deletedAnimal: ', deletedAnimal);
+    res.send({ 'DELETED': deletedAnimal });
 });
 
 
