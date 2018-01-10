@@ -66,7 +66,7 @@ app.post('/', function(req, res){
 });
 
 app.delete('/', function(req, res){
-    console.log('delete req.body: ', req.body);
+    // console.log('delete req.body: ', req.body);
     let deletedAnimal;
     for (var i = 0; i < animals.length; i++){
         if (req.body.name == animals[i].name){
@@ -78,6 +78,11 @@ app.delete('/', function(req, res){
     res.send({ 'DELETED': deletedAnimal });
 });
 
+app.put('/', function(req, res){
+    console.log('put req.body and req.params: ', req.body, req.params);
+    animal[req.params].name = req.body.name;
+    res.send({ 'EDITED': animal[req.params] })
+});
 
 app.listen(3000, function(){
     console.log('Listening on port 3000.');

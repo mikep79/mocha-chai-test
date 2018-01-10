@@ -129,13 +129,30 @@ describe('server', function () {
                 });
         })
     });
+    describe('put req test.', function () {
+        it('should edit an animals trait', function (done) {
+            let newName = 'georgie';
+            let changedId = 1;
+            chai.request(app)
+                .put('/:' + id)
+                .send(newName)
+                .end(function (err, res) {
+                    //tests here
+                    expect(res).to.have.status(200);
+                    expect(res).to.have.property('EDITED');
+                    expect(res.EDITED).to.have.all.keys('name', 'legs');
+                    expect(res.EDITED.name).to.equal(newName);
+                    done();
+                })
+        })
+    });
     describe('delete req test.', function () {
         it('should delete an animal from animals array', function (done) {
             let newAnimal = { name: 'jimbo' };
             chai.request(app)
                 .delete('/')
                 .send(newAnimal)
-                .end(function(err, res){
+                .end(function (err, res) {
                     expect(res).to.have.status(200);
                     expect(res.body).to.be.a('object');
                     expect(res.body).to.have.property('DELETED');
@@ -144,22 +161,6 @@ describe('server', function () {
                     expect(res.body.DELETED).to.have.property('name').that.is.a('string');
                     done();
                 });
-        })
-    });
-    describe('put req test.', function(){
-        it('should edit an animals trait', function(done){
-            let newName = 'georgie';
-            chai.request(app)
-                .put('/')
-                .send(newName)
-                .end(function(err,res){
-                    //tests here
-                    expect(res).to.have.status(200);
-                    expect(res).to.have.property('DELETED');
-                    expect(res.DELETED).to.have.all.keys('name', 'legs');
-                    expect(res.DELETED.name).to.equal(newName);
-                    done();
-                })
         })
     });
 });
