@@ -66,7 +66,7 @@ app.post('/', function(req, res){
 });
 
 app.delete('/', function(req, res){
-    // console.log('delete req.body: ', req.body);
+    console.log('DELETE req.body: ', req.body);
     let deletedAnimal;
     for (var i = 0; i < animals.length; i++){
         if (req.body.name == animals[i].name){
@@ -78,10 +78,11 @@ app.delete('/', function(req, res){
     res.send({ 'DELETED': deletedAnimal });
 });
 
-app.put('/', function(req, res){
-    console.log('put req.body and req.params: ', req.body, req.params);
-    animal[req.params].name = req.body.name;
-    res.send({ 'EDITED': animal[req.params] })
+app.put('/:id', function(req, res){
+    console.log('PUT req.body and req.params: ', req.body, req.params);
+    let editId = req.body.id
+    animals[1].name = req.body.name;
+    res.send({ 'EDITED': animals[1] });
 });
 
 app.listen(3000, function(){

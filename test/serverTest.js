@@ -14,6 +14,95 @@ var thing;
 
 
 describe('server', function () {
+    describe('GET req test', function () {
+        it('should return the animals array', function (done) {
+            chai.request(app)
+                .get('/')
+                .end(function (err, res) {
+                    // console.log('res: ', res);
+                    // assert style
+                    assert.equal(res.status, 200);
+                    assert.typeOf(res, 'object');
+                    assert.typeOf(res.body, 'array');
+                    assert.equal(res.body.length, 1);
+                    // should style
+                    res.should.have.status(200);
+                    res.should.be.a('object');
+                    res.body.should.be.a('array');
+                    res.body.should.have.lengthOf(1);
+                    res.body[0].name.should.include('snif');
+                    res.body[0].name.should.equal('sniffles');
+                    // expect style
+                    expect(err).to.be.null;
+                    expect(res).to.have.status(200);
+                    expect(res).to.be.a('object');
+                    expect(res).to.be.json;
+                    expect(res.body).to.be.a('array');
+                    expect(res.body).to.have.lengthOf(1);
+                    // include => good for testing that emails contain @
+                    expect(res.body[0].name).to.include('snif');
+                    expect(res.body[0].name).to.equal('sniffles');
+                    // required!
+                    done();
+                });
+        });
+    });
+    describe('POST animal req', function () {
+        it('it should add an animal to animals array', function (done) {
+            let newAnimal = { name: 'jimbo', legs: 4 };
+            chai.request(app)
+                .post('/')
+                .send(newAnimal)
+                .end(function (err, res) {
+                    expect(err).to.be.null;
+                    expect(res).to.have.status(200);
+                    // not working. no headers?
+                    // expect(res.body).to.be.json;
+                    expect(res.body).to.have.property('SUCCESS');
+                    expect(res.body.SUCCESS).to.have.property('name').that.is.a('string');
+                    expect(res.body.SUCCESS).to.have.property('legs').that.is.a('number');
+                    expect(res.body.SUCCESS).to.have.property('legs').to.equal(4);
+                    expect(res.body.SUCCESS).to.have.property('name').to.equal(newAnimal.name);
+                    expect(res.body.SUCCESS).to.have.all.keys('name', 'legs');
+                    done();
+                });
+        })
+    });
+    describe('put req test.', function () {
+        it('should edit an animals trait', function (done) {
+            let newName = { name: 'georgie'};
+            let changedId = 1;
+            chai.request(app)
+                .put('/' + changedId)
+                .send(newName)
+                .end(function (err, res) {
+                    //tests here
+                    expect(res).to.have.status(200);
+                    expect(res.body).to.be.a('object');
+                    expect(res.body).to.have.property('EDITED');
+                    // expect(res.body.EDITED).to.have.all.keys('name', 'legs');
+                    // expect(res.body.EDITED.name).to.equal(newName);
+                    done();
+                })
+        })
+    });
+    describe('delete req test.', function () {
+        it('should delete an animal from animals array', function (done) {
+            let animalToDelete = { name: 'georgie' };
+            chai.request(app)
+                .delete('/')
+                .send(animalToDelete)
+                .end(function (err, res) {
+                    expect(res).to.have.status(200);
+                    expect(res.body).to.be.a('object');
+                    expect(res.body).to.have.property('DELETED');
+                    expect(res.body.DELETED).to.have.all.keys('name', 'legs');
+                    expect(res.body.DELETED).to.have.property('legs').that.is.a('number');
+                    expect(res.body.DELETED).to.have.property('name').that.is.a('string');
+                    done();
+                });
+        })
+    });
     // name of tests
     // describe('wowTest()', function () {
     //     // each test statement
@@ -75,92 +164,4 @@ describe('server', function () {
     //         assert.equal(app.squareTest(5), 25);
     //     })
     // });
-    describe('GET req test', function () {
-        it('should return the animals array', function (done) {
-            chai.request(app)
-                .get('/')
-                .end(function (err, res) {
-                    // console.log('res: ', res);
-                    // assert style
-                    assert.equal(res.status, 200);
-                    assert.typeOf(res, 'object');
-                    assert.typeOf(res.body, 'array');
-                    assert.equal(res.body.length, 1);
-                    // should style
-                    res.should.have.status(200);
-                    res.should.be.a('object');
-                    res.body.should.be.a('array');
-                    res.body.should.have.lengthOf(1);
-                    res.body[0].name.should.include('snif');
-                    res.body[0].name.should.equal('sniffles');
-                    // expect style
-                    expect(err).to.be.null;
-                    expect(res).to.have.status(200);
-                    expect(res).to.be.a('object');
-                    expect(res).to.be.json;
-                    expect(res.body).to.be.a('array');
-                    expect(res.body).to.have.lengthOf(1);
-                    // include => good for testing that emails contain @
-                    expect(res.body[0].name).to.include('snif');
-                    expect(res.body[0].name).to.equal('sniffles');
-                    // required!
-                    done();
-                });
-        });
-    });
-    describe('POST animal req', function () {
-        it('it should add an animal to animals array', function (done) {
-            let newAnimal = { name: 'jimbo', legs: 4 };
-            chai.request(app)
-                .post('/')
-                .send(newAnimal)
-                .end(function (err, res) {
-                    expect(err).to.be.null;
-                    expect(res).to.have.status(200);
-                    // not working. no headers?
-                    // expect(res.body).to.be.json;
-                    expect(res.body).to.have.property('SUCCESS');
-                    expect(res.body.SUCCESS).to.have.property('name').that.is.a('string');
-                    expect(res.body.SUCCESS).to.have.property('legs').that.is.a('number');
-                    expect(res.body.SUCCESS).to.have.property('legs').to.equal(4);
-                    expect(res.body.SUCCESS).to.have.property('name').to.equal(newAnimal.name);
-                    expect(res.body.SUCCESS).to.have.all.keys('name', 'legs');
-                    done();
-                });
-        })
-    });
-    describe('put req test.', function () {
-        it('should edit an animals trait', function (done) {
-            let newName = 'georgie';
-            let changedId = 1;
-            chai.request(app)
-                .put('/:' + id)
-                .send(newName)
-                .end(function (err, res) {
-                    //tests here
-                    expect(res).to.have.status(200);
-                    expect(res).to.have.property('EDITED');
-                    expect(res.EDITED).to.have.all.keys('name', 'legs');
-                    expect(res.EDITED.name).to.equal(newName);
-                    done();
-                })
-        })
-    });
-    describe('delete req test.', function () {
-        it('should delete an animal from animals array', function (done) {
-            let newAnimal = { name: 'jimbo' };
-            chai.request(app)
-                .delete('/')
-                .send(newAnimal)
-                .end(function (err, res) {
-                    expect(res).to.have.status(200);
-                    expect(res.body).to.be.a('object');
-                    expect(res.body).to.have.property('DELETED');
-                    expect(res.body.DELETED).to.have.all.keys('name', 'legs');
-                    expect(res.body.DELETED).to.have.property('legs').that.is.a('number');
-                    expect(res.body.DELETED).to.have.property('name').that.is.a('string');
-                    done();
-                });
-        })
-    });
 });
